@@ -38,7 +38,7 @@ void sorting(int size, dish *array) {
 
     printf("Sorted dishes based on stars:\n");
     for (int i = 0; i < size; i++) {
-        printf("%d) %s\n", array[i].stars, array[i].name);
+        printf("stars: %d name: %s\n", array[i].stars, array[i].name);
     }
 }
 
