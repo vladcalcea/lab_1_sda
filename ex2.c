@@ -44,7 +44,7 @@ void sorting(int size, dish *array) {
 
 void print(int size, dish *array) {
     for (int i = 0; i < size; i++) {
-        printf("Dish number: %d, name: %s, calories: %d, price: %d$, stars: %d, restaurant: %s\n", i + 1, array[i].name, array[i].calories, array[i].price, array[i].stars, array[i].restaurant);
+        printf("Dish number: %d, Name: %s, Calories: %d, Price: %d$, Stars: %d, Restaurant: %s\n", i + 1, array[i].name, array[i].calories, array[i].price, array[i].stars, array[i].restaurant);
     }
 }
 
