@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct str1 {
+typedef struct str1
+{
     char name[100];
     int calories;
     int price;
@@ -10,58 +11,83 @@ typedef struct str1 {
     int stars;
 } Dish;
 
-void search(Dish *array, int size) {
-    char name[100];
-    int flag=0;
-    printf("Insert the name of the food: ");
-    scanf("%s", name);
-    for (int i = 0; i < size; i++) {
-        if (strcmp(name, array[i].name) == 0) {
-            flag=1;
+void search(Dish *array, int size,char name)
+{
+    int flag = 0;
+    int pos = -1;
+    for (int i = 0; i < size; i++)
+    {
+        if (strcmp(name, array[i].name) == 0)
+        {
+            flag = 1;
+            pos = i;
+            break;
         }
-        if (flag==1){
-            printf("found");
-        }
+    }
+    if (flag == 1)
+    {
+        printf("Found in %d\n", pos);
+    }
+    else
+    {
+        printf("Not found\n");
     }
 }
 
-void eliminate(Dish *array) {
-    free(array);
+void ask_search(Dish *array, int size, char name)
+{
+    printf("Insert the name of the food: ");
+    scanf("%s", name);
+    search(array, size, name);
 }
 
-void sorting(Dish *array, int size) {
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = 0; j < size - i - 1; j++) {
-            if (array[j].stars < array[j + 1].stars) {
+void eliminate(Dish *array)
+{
+    free(array);
+}
+void sorting(Dish *array, int size)
+{
+    for (int i = 0; i < size - 1; i++)
+    {
+        for (int j = 0; j < size - i - 1; j++)
+        {
+            if (array[j].stars < array[j + 1].stars)
+            {
                 Dish temp = array[j];
                 array[j] = array[j + 1];
                 array[j + 1] = temp;
             }
         }
     }
-    printf("Sorted based on stars");
+    printf("Sorted based on stars\n");
 }
 
-void print(Dish *array, int size) {
-    for (int i = 0; i < size; i++) {
+void print(Dish *array, int size)
+{
+    for (int i = 0; i < size; i++)
+    {
         printf("Dish number: %d, name: %s, calories: %d, price: %d$, stars: %d, restaurant: %s\n", i + 1, array[i].name, array[i].calories, array[i].price, array[i].stars, array[i].restaurant);
     }
 }
 
-void insert_front(Dish **array, int *size) {
+void insert_front(Dish **array, int *size)
+{
     (*size)++;
     *array = (Dish *)realloc(*array, *size * sizeof(Dish));
-    if (*array == NULL) {
+    if (*array == NULL)
+    {
         printf("Memory allocation has failed\n");
         return;
     }
-    for (int i = *size - 1; i > 0; i--) {
+    for (int i = *size - 1; i > 0; i--)
+    {
         (*array)[i] = (*array)[i - 1];
     }
     insertions_front(*array, *size);
 }
 
-void insertions_front(Dish *array, int size) {
+void insertions_front(Dish *array, int size)
+{
     printf("Insert the name of the new element: ");
     scanf("%s", array[0].name);
     printf("Insert the number of calories: ");
@@ -74,18 +100,21 @@ void insertions_front(Dish *array, int size) {
     scanf("%s", array[0].restaurant);
 }
 
-void insert_end(Dish **array, int *size) {
+void insert_end(Dish **array, int *size)
+{
     (*size)++;
     *array = (Dish *)realloc(*array, *size * sizeof(Dish));
-    if (*array == NULL) {
+    if (*array == NULL)
+    {
         printf("Memory allocation has failed\n");
         return;
     }
-    
+
     insertions_end(*array, *size);
 }
 
-void insertions_end(Dish *array, int size) {
+void insertions_end(Dish *array, int size)
+{
     printf("Insert the name of the new element: ");
     scanf("%s", array[size - 1].name);
     printf("Insert the number of calories: ");
@@ -98,23 +127,26 @@ void insertions_end(Dish *array, int size) {
     scanf("%s", array[size - 1].restaurant);
 }
 
-
-void insert_x(Dish **array, int *size) {
+void insert_x(Dish **array, int *size)
+{
     int x;
     printf("Insert the position where you would like to add the new element: ");
     scanf("%d", &x);
     (*size)++;
     *array = (Dish *)realloc(*array, *size * sizeof(Dish));
-    if (*array == NULL) {
+    if (*array == NULL)
+    {
         printf("Memory allocation failed\n");
         return;
     }
-    for (int i = *size - 1; i > x - 1; i--) {
+    for (int i = *size - 1; i > x - 1; i--)
+    {
         (*array)[i] = (*array)[i - 1];
     }
     insertion_x(*array, *size, x);
 }
-void insertion_x(Dish *array, int size, int x){
+void insertion_x(Dish *array, int size, int x)
+{
     printf("Insert the name of the new element: ");
     scanf("%s", array[x - 1].name);
     printf("Insert the number of calories: ");
@@ -127,72 +159,80 @@ void insertion_x(Dish *array, int size, int x){
     scanf("%s", array[x - 1].restaurant);
 }
 
-void delete(Dish *array, int size) {
+void delete(Dish *array, int size)
+{
     int x;
     printf("Insert the element you want to delete: ");
     scanf("%d", &x);
-    for (int i = x - 1; i < size - 1; i++) {
+    for (int i = x - 1; i < size - 1; i++)
+    {
         array[i] = array[i + 1];
     }
     (size)--;
     array = (Dish *)realloc(array, size * sizeof(Dish));
 }
 
-void menu(Dish *array, int size) {
+void menu(Dish *array, int size, char name)
+{
     int n;
     printf("Menu:\n1) Search\n2) Eliminate\n3) Sorting\n4) Insert at the front\n5) Insert at the end\n6) Insert in X position\n7) Delete from X position\n8) Print\n9) Stop\n");
     scanf("%d", &n);
-    switch (n) {
+    switch (n)
+    {
     case 1:
-        search(array, size);
-        menu(array, size);
+        search(array, size, name);
+        menu(array, size, name);
         break;
     case 2:
         eliminate(array);
-        menu(array, size);
+        menu(array, size, name);
         break;
     case 3:
         sorting(array, size);
-        menu(array, size);
+        menu(array, size, name);
         break;
     case 4:
         insert_front(&array, &size);
-        menu(array, size);
+        menu(array, size, name);
         break;
     case 5:
         insert_end(&array, &size);
-        menu(array, size);
+        menu(array, size, name);
         break;
     case 6:
         insert_x(&array, &size);
-        menu(array, size);
+        menu(array, size, name);
         break;
     case 7:
-        delete(array, size);
-        menu(array, size);
+        delete (array, size);
+        menu(array, size, name);
         break;
     case 8:
         print(array, size);
-        menu(array, size);
+        menu(array, size, name);
         break;
     case 9:
         break;
     default:
-        menu(array, size);
+        menu(array, size, name);
     }
 }
 
-int main() {
+int main()
+{
+    char name[20];
     int size;
     Dish *array;
     printf("Insert the number of items: ");
     scanf("%d", &size);
     array = (Dish *)malloc(size * sizeof(Dish));
-    if (array == NULL) {
+    if (array == NULL)
+    {
         printf("Memory allocation has failed\n");
         return -1;
     }
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++)
+    {
         printf("Insert the name of the Dish: ");
         scanf("%s", array[i].name);
         printf("Insert the number of calories: ");
@@ -204,6 +244,6 @@ int main() {
         printf("Insert the name of the restaurant: ");
         scanf("%s", array[i].restaurant);
     }
-    menu(array, size);
+    menu(array, size, name);
     return 0;
 }
